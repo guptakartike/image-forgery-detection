@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrueSight — AI Image Forgery Detector</title>
+    <meta name="description"
+        content="Upload any image and discover the truth. TrueSight uses advanced AI to detect whether an image is real or AI-generated." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="output.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .font-condensed {
+            font-family: 'Barlow Condensed', sans-serif;
+        }
+
+        .transition-theme {
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+        }
+
+        /* Drag-over state */
+        #dropzone.drag-over {
+            border-color: #FFC107;
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        /* Score bar animation */
+        .score-bar {
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Spin animation */
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .animate-spin-smooth {
+            animation: spin 0.8s linear infinite;
+        }
+
+        /* Radial glow on hero */
+        .hero-glow {
+            background: radial-gradient(ellipse 60% 70% at 70% 50%, rgba(255, 193, 7, 0.07) 0%, transparent 70%);
+        }
+
+        .dark .hero-glow {
+            background: radial-gradient(ellipse 60% 70% at 70% 50%, rgba(255, 193, 7, 0.10) 0%, transparent 70%);
+        }
+    </style>
+</head>
+
+<body class="dark:bg-neutral-950 bg-white dark:text-white text-neutral-900 min-h-screen transition-theme">
+
+    <!-- ═══════════════ NAV ═══════════════ -->
+    <nav class="sticky top-0 z-50 flex items-center justify-between px-6 md:px-16 h-16
+              dark:bg-neutral-950/85 bg-white/85 backdrop-blur-md
+              dark:border-neutral-800 border-neutral-200 border-b transition-theme">
+
+        <!-- Brand -->
+        <a href="#" class="flex items-center gap-2.5 no-underline" onclick="resetAll(); return false;">
+            <div class="w-8 h-8 bg-amber-400 rounded-md flex items-center justify-center text-lg">🔍</div>
+            <span class="font-condensed font-extrabold text-xl tracking-widest uppercase text-white">
+                True<span class="text-amber-400">Sight</span>
+            </span>
+        </a>
+
+        <!-- Right controls -->
+        <div class="flex items-center gap-3">
+            <!-- Theme toggle -->
+            <button id="themeToggle" onclick="toggleTheme()" class="flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium
+               dark:border-neutral-700 border-neutral-200
+               dark:text-neutral-400 text-neutral-600
+               dark:hover:border-amber-400 hover:border-amber-400
+               dark:hover:text-amber-400 hover:text-amber-400
+               transition-all duration-150 cursor-pointer" title="Toggle light/dark mode">
+                <span id="themeIcon">☀️</span>
+                <span id="themeLabel" class="hidden sm:inline">Light Mode</span>
+            </button>
+
+            <!-- AI Powered badge -->
+            <span
+                class="bg-amber-400 text-black font-condensed font-bold text-xs tracking-widest uppercase px-3 py-1.5 rounded">
+                AI Powered
+            </span>
+        </div>
+    </nav>
+
+    <!-- ═══════════════ MAIN PAGE ═══════════════ -->
+    <div id="mainPage">
+
+        <!-- ── HERO ── -->
+        <section class="relative min-h-[calc(100vh-4rem)] grid md:grid-cols-2 grid-cols-1 items-center gap-8
+                    px-6 md:px-16 py-16 md:py-24 overflow-hidden">
+
+            <!-- Glow overlay -->
+            <div class="hero-glow absolute inset-0 pointer-events-none"></div>
+
+            <!-- Left: headline -->
+            <div class="relative z-10">
+                <div class="inline-flex items-center gap-1.5
+                    bg-amber-400/10 border border-amber-400/30
+                    text-amber-400 text-xs font-semibold tracking-widest uppercase
+                    px-4 py-1.5 rounded-full mb-6">
+                    <span class="text-[0.55rem]">◆</span> Advanced Forgery Detection
+                </div>
+
+                <h1 class="font-condensed font-black uppercase leading-[0.9] tracking-tight mb-4">
+                    <span class="text-amber-400" style="font-size: clamp(4.5rem, 10vw, 8rem); display:block">FIND
+                        THE</span>
+                    <span class="dark:text-white text-neutral-900"
+                        style="font-size: clamp(4.5rem, 10vw, 8rem); display:block">TRUTH.</span>
+                </h1>
+
+                <p class="text-sm dark:text-neutral-400 text-neutral-500 max-w-sm leading-relaxed mb-8">
+                    Upload any image — our neural network analyzes it in seconds to determine whether it's a genuine
+                    photograph or AI-generated content.
+                </p>
+
+                <!-- Stats -->
+                <div class="flex gap-8 mb-8">
+                    <div>
+                        <div class="font-condensed font-extrabold text-amber-400" style="font-size:1.8rem">97%</div>
+                        <div class="text-xs dark:text-neutral-500 text-neutral-400 uppercase tracking-widest">Accuracy
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-condensed font-extrabold text-amber-400" style="font-size:1.8rem">&lt;2s</div>
+                        <div class="text-xs dark:text-neutral-500 text-neutral-400 uppercase tracking-widest">Detection
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-condensed font-extrabold text-amber-400" style="font-size:1.8rem">100%</div>
+                        <div class="text-xs dark:text-neutral-500 text-neutral-400 uppercase tracking-widest">Private
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Upload panel -->
+            <div class="relative z-10 dark:bg-neutral-900 bg-neutral-50
+                  dark:border-neutral-800 border-neutral-200
+                  border rounded-2xl p-7 flex flex-col gap-5
+                  shadow-xl dark:shadow-black/60 transition-theme">
+
+                <div class="flex items-center justify-between">
+                    <span class="font-condensed font-bold text-lg tracking-widest uppercase">Upload Image</span>
+                    <span
+                        class="font-condensed text-xs font-semibold dark:text-neutral-500 text-neutral-400 tracking-widest uppercase">Step
+                        01 / 02</span>
+                </div>
+
+                <!-- Dropzone -->
+                <div id="dropzone" class="border-2 border-dashed dark:border-neutral-700 border-neutral-300
+                 rounded-xl py-10 px-6 text-center cursor-pointer
+                 hover:border-amber-400 dark:hover:bg-amber-400/5 hover:bg-amber-50
+                 transition-all duration-150" onclick="document.getElementById('fileInput').click()" role="button"
+                    tabindex="0" aria-label="Upload image">
+                    <span class="text-4xl mb-3 block">📂</span>
+                    <div class="font-condensed font-bold text-xl uppercase tracking-wide mb-1">Drop your image here
+                    </div>
+                    <div class="text-xs dark:text-neutral-500 text-neutral-400">
+                        or <span class="text-amber-400 font-semibold">click to browse</span> — JPG, PNG, WEBP · Max 5MB
+                    </div>
+                    <input type="file" id="fileInput" class="hidden" accept=".jpg,.jpeg,.png,.webp" />
+                </div>
+
+                <!-- Preview (hidden by default) -->
+                <div id="previewSection" class="hidden flex-col gap-4">
+                    <div
+                        class="rounded-xl overflow-hidden max-h-60 dark:bg-neutral-800 bg-neutral-100 flex items-center justify-center">
+                        <img id="previewImg" src="" alt="Preview" class="w-full max-h-60 object-contain" />
+                    </div>
+                    <button id="analyzeBtn" class="w-full flex items-center justify-center gap-2
+                   bg-amber-400 hover:bg-amber-500 text-black
+                   font-condensed font-extrabold text-base tracking-widest uppercase
+                   py-3.5 px-7 rounded-xl transition-all duration-150
+                   hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
+                        <span>⚡</span> Analyze Image
+                    </button>
+                    <button onclick="resetAll()" class="w-full text-sm dark:text-neutral-500 text-neutral-400
+                   dark:hover:text-amber-400 hover:text-amber-500
+                   dark:border-neutral-700 border-neutral-200 border
+                   rounded-lg py-2.5 transition-colors duration-150 cursor-pointer">
+                        ✕ Choose a different image
+                    </button>
+                </div>
+
+                <!-- Loader (hidden by default) -->
+                <div id="loader" class="hidden flex-col items-center gap-3 py-8">
+                    <div class="w-12 h-12 border-3 dark:border-neutral-700 border-neutral-200
+                      border-t-amber-400 rounded-full animate-spin-smooth"
+                        style="border-width:3px; border-top-color:#FFC107"></div>
+                    <div
+                        class="font-condensed font-bold text-base tracking-widest uppercase dark:text-neutral-400 text-neutral-500">
+                        Analyzing image…</div>
+                </div>
+
+                <!-- Error -->
+                <div id="errorBox"
+                    class="hidden text-sm text-red-400 bg-red-400/10 border border-red-400/30 rounded-lg px-4 py-3">
+                    <strong>Error:</strong> <span id="errorMsg"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── HOW IT WORKS ── -->
+        <section
+            class="px-6 md:px-16 py-16 md:py-24 dark:border-neutral-800 border-neutral-200 border-t transition-theme"
+            id="how">
+            <div class="text-xs font-bold tracking-[0.18em] uppercase text-amber-400 mb-2">The Process</div>
+            <h2 class="font-condensed font-black uppercase leading-[0.95] mb-12"
+                style="font-size: clamp(2.8rem, 6vw, 5rem)">
+                HOW<br><span class="text-amber-400">IT WORKS</span>
+            </h2>
+
+            <div
+                class="grid sm:grid-cols-2 lg:grid-cols-4 gap-px dark:bg-neutral-800 bg-neutral-200 border dark:border-neutral-800 border-neutral-200 rounded-2xl overflow-hidden">
+                <div
+                    class="dark:bg-neutral-900 bg-white hover:dark:bg-neutral-800 hover:bg-neutral-50 transition-colors p-7 flex flex-col gap-4">
+                    <div class="font-condensed font-black text-5xl leading-none text-amber-400/20">01</div>
+                    <div class="text-3xl">🖼️</div>
+                    <div class="font-condensed font-extrabold text-xl uppercase tracking-wide">Upload</div>
+                    <div class="text-sm dark:text-neutral-500 text-neutral-500 leading-relaxed">Drag-and-drop or select
+                        any image — JPEG, PNG, or WEBP — up to 5 MB.</div>
+                </div>
+                <div
+                    class="dark:bg-neutral-900 bg-white hover:dark:bg-neutral-800 hover:bg-neutral-50 transition-colors p-7 flex flex-col gap-4">
+                    <div class="font-condensed font-black text-5xl leading-none text-amber-400/20">02</div>
+                    <div class="text-3xl">🧠</div>
+                    <div class="font-condensed font-extrabold text-xl uppercase tracking-wide">Analyze</div>
+                    <div class="text-sm dark:text-neutral-500 text-neutral-500 leading-relaxed">Our EfficientNet model
+                        scans frequency artifacts and pixel-level inconsistencies.</div>
+                </div>
+                <div
+                    class="dark:bg-neutral-900 bg-white hover:dark:bg-neutral-800 hover:bg-neutral-50 transition-colors p-7 flex flex-col gap-4">
+                    <div class="font-condensed font-black text-5xl leading-none text-amber-400/20">03</div>
+                    <div class="text-3xl">📊</div>
+                    <div class="font-condensed font-extrabold text-xl uppercase tracking-wide">Score</div>
+                    <div class="text-sm dark:text-neutral-500 text-neutral-500 leading-relaxed">Receive confidence
+                        scores for "Real" and "AI-Generated" with a clear verdict.</div>
+                </div>
+                <div
+                    class="dark:bg-neutral-900 bg-white hover:dark:bg-neutral-800 hover:bg-neutral-50 transition-colors p-7 flex flex-col gap-4">
+                    <div class="font-condensed font-black text-5xl leading-none text-amber-400/20">04</div>
+                    <div class="text-3xl">🔒</div>
+                    <div class="font-condensed font-extrabold text-xl uppercase tracking-wide">Private</div>
+                    <div class="text-sm dark:text-neutral-500 text-neutral-500 leading-relaxed">Your images are never
+                        stored. Analysis happens on the fly and data is discarded immediately.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── FOOTER ── -->
+        <footer
+            class="dark:border-neutral-800 border-neutral-200 border-t dark:bg-neutral-950 bg-neutral-50 transition-theme">
+            <div class="px-6 md:px-16 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+
+                <!-- Brand col -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 bg-amber-400 rounded-md flex items-center justify-center text-lg">🔍</div>
+                        <span class="font-condensed font-extrabold text-xl tracking-widest uppercase">
+                            True<span class="text-amber-400">Sight</span>
+                        </span>
+                    </div>
+                    <p class="text-sm dark:text-neutral-500 text-neutral-500 leading-relaxed max-w-xs">
+                        AI-powered image authenticity detection. Instantly know if an image is real or AI-generated.
+                    </p>
+                    <div class="flex gap-2 mt-1">
+                        <span
+                            class="bg-amber-400/10 border border-amber-400/25 text-amber-400 text-xs font-semibold px-2.5 py-1 rounded-full">97%
+                            Accuracy</span>
+                        <span
+                            class="bg-amber-400/10 border border-amber-400/25 text-amber-400 text-xs font-semibold px-2.5 py-1 rounded-full">100%
+                            Private</span>
+                    </div>
+                </div>
+
+                <!-- Links col -->
+                <div class="flex flex-col gap-3">
+                    <div
+                        class="font-condensed font-bold text-sm tracking-widest uppercase mb-1 dark:text-neutral-300 text-neutral-700">
+                        Quick Links</div>
+                    <a href="#"
+                        class="text-sm dark:text-neutral-500 text-neutral-500 hover:text-amber-400 transition-colors">Home</a>
+                    <a href="#how"
+                        class="text-sm dark:text-neutral-500 text-neutral-500 hover:text-amber-400 transition-colors">How
+                        It Works</a>
+                    <a href="#" onclick="document.getElementById('dropzone').click(); return false;"
+                        class="text-sm dark:text-neutral-500 text-neutral-500 hover:text-amber-400 transition-colors">Try
+                        It Now</a>
+                </div>
+
+                <!-- Tech col -->
+                <div class="flex flex-col gap-3">
+                    <div
+                        class="font-condensed font-bold text-sm tracking-widest uppercase mb-1 dark:text-neutral-300 text-neutral-700">
+                        Built With</div>
+                    <div class="text-sm dark:text-neutral-500 text-neutral-500">EfficientNet (AI Model)</div>
+                    <div class="text-sm dark:text-neutral-500 text-neutral-500">Python / Flask</div>
+                    <div class="text-sm dark:text-neutral-500 text-neutral-500">Node.js / Express</div>
+                    <div class="text-sm dark:text-neutral-500 text-neutral-500">Tailwind CSS v4</div>
+                </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="dark:border-neutral-800 border-neutral-200 border-t px-6 md:px-16 py-5
+                  flex flex-col sm:flex-row items-center justify-between gap-3">
+                <div class="text-xs dark:text-neutral-600 text-neutral-400">
+                    © 2026 TrueSight. Built as a college project. All rights reserved.
+                </div>
+                <div class="text-xs dark:text-neutral-600 text-neutral-400 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span>
+                    Model online · <span class="text-amber-400 font-medium">97% accuracy</span>
+                </div>
+            </div>
+        </footer>
+
+    </div><!-- /mainPage -->
+
+    <!-- ═══════════════ RESULT FULL PAGE ═══════════════ -->
+    <div class="hidden fixed inset-0 z-[200] dark:bg-neutral-950 bg-white overflow-y-auto transition-theme"
+        id="resultPage">
+        <div class="min-h-screen flex flex-col">
+
+            <!-- Result nav -->
+            <div
+                class="flex items-center justify-between px-6 md:px-16 py-5 dark:border-neutral-800 border-neutral-200 border-b">
+                <a href="#" class="flex items-center gap-2.5 no-underline" onclick="resetAll(); return false;">
+                    <div class="w-8 h-8 bg-amber-400 rounded-md flex items-center justify-center text-lg">🔍</div>
+                    <span class="font-condensed font-extrabold text-xl tracking-widest uppercase">
+                        True<span class="text-amber-400">Sight</span>
+                    </span>
+                </a>
+                <button onclick="resetAll()" class="text-sm dark:text-neutral-400 text-neutral-500
+                 dark:border-neutral-700 border-neutral-200 border
+                 px-4 py-2 rounded-lg
+                 hover:border-amber-400 hover:text-amber-400 transition-all cursor-pointer">
+                    ← Analyze another image
+                </button>
+            </div>
+
+            <!-- Result body -->
+            <div class="flex-1 grid md:grid-cols-2 grid-cols-1">
+
+                <!-- Image col -->
+                <div
+                    class="p-8 md:p-14 flex flex-col gap-5 dark:border-neutral-800 border-neutral-200 md:border-r border-b md:border-b-0">
+                    <div class="text-xs font-bold tracking-[0.14em] uppercase dark:text-neutral-500 text-neutral-400">
+                        Uploaded Image</div>
+                    <div
+                        class="rounded-2xl overflow-hidden dark:bg-neutral-900 bg-neutral-100 flex items-center justify-center">
+                        <img id="resultImg" src="" alt="Analyzed image" class="w-full max-h-[55vh] object-contain" />
+                    </div>
+                    <p class="text-xs dark:text-neutral-500 text-neutral-400 leading-relaxed">
+                        Analyzed by our EfficientNet-based model trained on real and AI-generated image datasets.
+                    </p>
+                </div>
+
+                <!-- Data col -->
+                <div class="p-8 md:p-14 flex flex-col gap-8">
+                    <div>
+                        <div class="text-xs font-bold tracking-[0.14em] uppercase text-amber-400 mb-1">Detection
+                            Complete</div>
+                        <div class="font-condensed font-black uppercase leading-[0.95]"
+                            style="font-size:clamp(2rem,4vw,3.5rem)">
+                            YOUR<br><span class="text-amber-400">RESULTS</span>
+                        </div>
+                    </div>
+
+                    <!-- Verdict banner -->
+                    <div id="verdictBanner" class="rounded-2xl p-5 flex items-center gap-4 border">
+                        <div id="verdictIcon" class="text-4xl"></div>
+                        <div>
+                            <div class="text-xs font-bold tracking-[0.12em] uppercase opacity-60 mb-0.5"
+                                id="verdictLabel">Verdict</div>
+                            <div class="font-condensed font-black text-3xl uppercase tracking-wide" id="verdictText">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Score bars -->
+                    <div class="flex flex-col gap-5">
+                        <div
+                            class="text-xs font-bold tracking-[0.14em] uppercase dark:text-neutral-500 text-neutral-400">
+                            Confidence Breakdown</div>
+
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-condensed font-bold uppercase tracking-wide text-green-400">Real
+                                    Photo</span>
+                                <span class="font-condensed font-black text-2xl text-green-400" id="realScore">—</span>
+                            </div>
+                            <div class="h-2 dark:bg-neutral-800 bg-neutral-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-green-400 rounded-full score-bar" id="realBar" style="width:0%">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <div class="flex items-center justify-between">
+                                <span class="font-condensed font-bold uppercase tracking-wide text-red-400">AI
+                                    Generated</span>
+                                <span class="font-condensed font-black text-2xl text-red-400" id="aiScore">—</span>
+                            </div>
+                            <div class="h-2 dark:bg-neutral-800 bg-neutral-200 rounded-full overflow-hidden">
+                                <div class="h-full bg-red-400 rounded-full score-bar" id="aiBar" style="width:0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Donut chart -->
+                    <div class="flex flex-col items-center gap-4">
+                        <div class="w-40 h-40"><canvas id="scoreChart"></canvas></div>
+                        <div class="flex gap-5">
+                            <div class="flex items-center gap-2 text-sm dark:text-neutral-400 text-neutral-500">
+                                <span class="w-2.5 h-2.5 rounded-full bg-green-400 inline-block"></span> Real
+                            </div>
+                            <div class="flex items-center gap-2 text-sm dark:text-neutral-400 text-neutral-500">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-400 inline-block"></span> AI Generated
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════ STICKY BAR ═══════════════ -->
+    <div class="fixed bottom-0 left-0 right-0 bg-amber-400 text-black z-40
+              flex items-center justify-center gap-2 py-2.5 px-4
+              font-condensed font-bold text-sm tracking-widest uppercase">
+        <span>🔍 TrueSight</span>
+        <span class="opacity-40">•</span>
+        <span>AI Image Forgery Detector</span>
+        <span class="opacity-40 hidden sm:inline">•</span>
+        <span class="hidden sm:inline">Neural network powered · 97% accuracy</span>
+    </div>
+    <div class="h-11"></div><!-- spacer for sticky bar -->
+
+    <script>
+        // ── THEME ──
+        function applyTheme(dark) {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            const label = document.getElementById('themeLabel');
+            if (dark) {
+                html.classList.add('dark');
+                icon.textContent = '☀️';
+                label.textContent = 'Light Mode';
+            } else {
+                html.classList.remove('dark');
+                icon.textContent = '🌙';
+                label.textContent = 'Dark Mode';
+            }
+            localStorage.setItem('theme', dark ? 'dark' : 'light');
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            applyTheme(!isDark);
+        }
+
+        // Restore saved theme (default: dark)
+        const saved = localStorage.getItem('theme');
+        applyTheme(saved !== 'light');
+
+        // ── FILE HANDLING ──
+        let chartInstance = null;
+        let selectedFile = null;
+
+        const fileInput = document.getElementById('fileInput');
+        const dropzone = document.getElementById('dropzone');
+        const previewSection = document.getElementById('previewSection');
+        const previewImg = document.getElementById('previewImg');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const loader = document.getElementById('loader');
+        const errorBox = document.getElementById('errorBox');
+        const errorMsg_el = document.getElementById('errorMsg');
+        const resultPage = document.getElementById('resultPage');
+        const mainPage = document.getElementById('mainPage');
+
+        // Drag & drop
+        dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over');
+            if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+        });
+        dropzone.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fileInput.click(); }
+        });
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files[0]) handleFile(fileInput.files[0]);
+        });
+
+        function handleFile(file) {
+            selectedFile = file;
+            previewImg.src = URL.createObjectURL(file);
+            previewSection.classList.remove('hidden');
+            previewSection.classList.add('flex');
+            errorBox.classList.add('hidden');
+            loader.classList.add('hidden');
+            loader.classList.remove('flex');
+        }
+
+        analyzeBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+            previewSection.classList.add('hidden');
+            previewSection.classList.remove('flex');
+            loader.classList.remove('hidden');
+            loader.classList.add('flex');
+            errorBox.classList.add('hidden');
+
+            const formData = new FormData();
+            formData.append('image', selectedFile);
+
+            try {
+                const res = await fetch('/api/detect', { method: 'POST', body: formData });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+                showResult(data.real, data.ai);
+            } catch (err) {
+                showError(err.message);
+            } finally {
+                loader.classList.add('hidden');
+                loader.classList.remove('flex');
+            }
+        });
+
+        function showResult(real, ai) {
+            document.getElementById('resultImg').src = previewImg.src;
+            document.getElementById('realScore').textContent = real.toFixed(1) + '%';
+            document.getElementById('aiScore').textContent = ai.toFixed(1) + '%';
+
+            const banner = document.getElementById('verdictBanner');
+            const icon = document.getElementById('verdictIcon');
+            const text = document.getElementById('verdictText');
+
+            if (real > ai) {
+                banner.className = 'rounded-2xl p-5 flex items-center gap-4 border bg-green-400/10 border-green-400/30';
+                icon.textContent = '✅';
+                text.textContent = 'Likely Real';
+                text.className = 'font-condensed font-black text-3xl uppercase tracking-wide text-green-400';
+            } else {
+                banner.className = 'rounded-2xl p-5 flex items-center gap-4 border bg-red-400/10 border-red-400/30';
+                icon.textContent = '⚠️';
+                text.textContent = 'Likely AI Generated';
+                text.className = 'font-condensed font-black text-3xl uppercase tracking-wide text-red-400';
+            }
+
+            requestAnimationFrame(() => {
+                document.getElementById('realBar').style.width = real + '%';
+                document.getElementById('aiBar').style.width = ai + '%';
+            });
+
+            if (chartInstance) chartInstance.destroy();
+            const ctx = document.getElementById('scoreChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Real', 'AI Generated'],
+                    datasets: [{ data: [real, ai], backgroundColor: ['#4ade80', '#f87171'], borderWidth: 0 }]
+                },
+                options: { cutout: '72%', plugins: { legend: { display: false } }, animation: { duration: 900 } }
+            });
+
+            resultPage.classList.remove('hidden');
+            mainPage.style.display = 'none';
+            window.scrollTo(0, 0);
+        }
+
+        function showError(msg) {
+            errorMsg_el.textContent = msg;
+            errorBox.classList.remove('hidden');
+            previewSection.classList.remove('hidden');
+            previewSection.classList.add('flex');
+        }
+
+        function resetAll() {
+            fileInput.value = '';
+            selectedFile = null;
+            previewSection.classList.add('hidden');
+            previewSection.classList.remove('flex');
+            loader.classList.add('hidden');
+            loader.classList.remove('flex');
+            errorBox.classList.add('hidden');
+            resultPage.classList.add('hidden');
+            mainPage.style.display = '';
+            if (chartInstance) { chartInstance.destroy(); chartInstance = null; }
+            window.scrollTo(0, 0);
+        }
+    </script>
+
+</body>
+
+</html>

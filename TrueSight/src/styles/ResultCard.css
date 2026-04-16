@@ -1,0 +1,249 @@
+/* ResultCard Component Styles - TrueSight Trust Colors */
+
+.result-card {
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  animation: slideIn 0.2s ease;
+  margin-top: 32px;
+  border: 2px solid #e5e7eb;
+}
+
+/* Loading State */
+.loading-container {
+  padding: 60px 32px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 2px solid #e5e7eb;
+  border-top: 3px solid #10b981;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  margin: 0;
+  color: #111827;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.loading-subtext {
+  margin: 0;
+  color: #10b981;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Result Header */
+.result-header {
+  padding: 24px 32px;
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.result-header.authentic {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  border-bottom-color: #10b981;
+}
+
+.result-header.forged {
+  background: linear-gradient(135deg, #fef2f2 0%, #fef5f5 100%);
+  border-bottom-color: #f97316;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-icon {
+  font-size: 1.75rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: white;
+}
+
+.result-header.authentic .status-icon {
+  color: #10b981;
+}
+
+.result-header.forged .status-icon {
+  color: #f97316;
+}
+
+.status-text {
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.result-header.authentic .status-text {
+  color: #10b981;
+}
+
+.result-header.forged .status-text {
+  color: #f97316;
+}
+
+/* Result Content */
+.result-content {
+  padding: 32px;
+  background: white;
+}
+
+.confidence-section {
+  margin-bottom: 28px;
+}
+
+.confidence-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.confidence-header h4 {
+  margin: 0;
+  color: #111827;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.confidence-value {
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.confidence-bar-container {
+  width: 100%;
+  height: 8px;
+  background-color: #e5e7eb;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.confidence-bar {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.confidence-bar.authentic {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+.confidence-bar.forged {
+  background: linear-gradient(90deg, #f97316, #ea580c);
+}
+
+/* Explanation Section */
+.explanation-section {
+  padding: 16px;
+  background-color: #f9fafb;
+  border-radius: 6px;
+  border-left: 3px solid #d1d5db;
+}
+
+.explanation-section h4 {
+  margin: 0 0 10px 0;
+  color: #111827;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.explanation-text {
+  margin: 0;
+  color: #6b7280;
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+/* Timestamp */
+.timestamp {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.timestamp small {
+  color: #d1d5db;
+  font-size: 0.8rem;
+}
+
+/* Animation */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .result-card {
+    margin-top: 24px;
+  }
+
+  .loading-container {
+    padding: 48px 24px;
+  }
+
+  .result-header {
+    padding: 20px 24px;
+  }
+
+  .status-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+
+  .status-text {
+    font-size: 1.2rem;
+  }
+
+  .result-content {
+    padding: 24px;
+  }
+
+  .confidence-value {
+    font-size: 1.2rem;
+  }
+
+  .explanation-section {
+    padding: 12px;
+  }
+}

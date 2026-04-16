@@ -1,0 +1,84 @@
+/* Navbar Component Styles - TrueSight with Trust Colors */
+
+.navbar {
+  background: #ffffff;
+  color: #111827;
+  padding: 16px 0;
+  border-bottom: 2px solid #10b981;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0;
+}
+
+.navbar-icon {
+  font-size: 1.5rem;
+  opacity: 1;
+  color: #10b981;
+  font-weight: 600;
+}
+
+.navbar-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: #111827;
+  background: linear-gradient(135deg, #111827 0%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.navbar-subtitle {
+  margin: 0;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  color: #10b981;
+  font-weight: 500;
+  display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .navbar {
+    padding: 12px 0;
+  }
+
+  .navbar-container {
+    padding: 0 16px;
+  }
+
+  .navbar-brand {
+    gap: 8px;
+  }
+
+  .navbar-icon {
+    font-size: 1.25rem;
+  }
+
+  .navbar-title {
+    font-size: 1.1rem;
+  }
+
+  .navbar-subtitle {
+    display: none;
+  }
+}

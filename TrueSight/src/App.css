@@ -1,0 +1,103 @@
+/* App Container */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 48px 20px 64px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Analysis Section */
+.analysis-section {
+  background: transparent;
+  border-radius: 0px;
+  padding: 0px;
+  box-shadow: none;
+}
+
+.upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* Detect Button - TrueSight Trust Colors */
+.detect-button {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: 1px solid #059669;
+  padding: 12px 32px;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.2);
+  margin-top: 16px;
+  width: 100%;
+  max-width: 280px;
+  letter-spacing: 0.3px;
+}
+
+.detect-button:hover:not(:disabled) {
+  transform: none;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+  background: linear-gradient(135deg, #059669 0%, #047857 100%);
+  border-color: #047857;
+}
+
+.detect-button:active:not(:disabled) {
+  transform: scale(0.98);
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+
+.detect-button:disabled {
+  background: #d1d5db;
+  border-color: #d1d5db;
+  cursor: not-allowed;
+  opacity: 1;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 40px 16px 48px;
+  }
+
+  .analysis-section {
+    padding: 0px;
+  }
+
+  .detect-button {
+    padding: 12px 28px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .main-content {
+    padding: 32px 12px 40px;
+  }
+
+  .analysis-section {
+    padding: 0px;
+  }
+
+  .detect-button {
+    padding: 12px 24px;
+    font-size: 0.9rem;
+  }
+}
+

@@ -1,0 +1,8 @@
+{
+  "name": "image-forgery-detection-workspace",
+  "private": true,
+  "scripts": {
+    "start-all": "npm --prefix TrueSight run start-all",
+    "install-all": "npm --prefix TrueSight install"
+  }
+}

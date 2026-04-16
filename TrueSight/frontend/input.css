@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+/* Make dark: respond to .dark class on <html>, not prefers-color-scheme */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-condensed: "Barlow Condensed", sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --color-amber: #FFC107;
+  --color-amber-dark: #e6ac00;
+}

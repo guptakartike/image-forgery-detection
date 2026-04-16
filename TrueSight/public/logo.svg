@@ -1,0 +1,29 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Green background -->
+  <rect width="512" height="512" fill="#16a34a" rx="60"/>
+  
+  <!-- Magnifying Glass Circle - White -->
+  <circle cx="280" cy="280" r="140" fill="none" stroke="#ffffff" stroke-width="32"/>
+  
+  <!-- Magnifying Glass Handle - White -->
+  <line x1="380" y1="380" x2="480" y2="480" stroke="#ffffff" stroke-width="32" stroke-linecap="round"/>
+  
+  <!-- Checkmark inside circle - White -->
+  <g transform="translate(280, 280)">
+    <!-- Checkmark path -->
+    <path d="M -30 0 L -5 30 L 45 -30" fill="none" stroke="#ffffff" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Pixel squares (top left) - White -->
+  <g fill="#ffffff">
+    <rect x="120" y="100" width="25" height="25"/>
+    <rect x="165" y="100" width="25" height="25"/>
+    <rect x="120" y="145" width="25" height="25"/>
+    <rect x="165" y="145" width="25" height="25"/>
+    <rect x="143" y="122" width="25" height="25"/>
+    <rect x="100" y="165" width="25" height="25"/>
+    <rect x="145" y="165" width="25" height="25"/>
+    <rect x="190" y="165" width="25" height="25"/>
+    <rect x="122" y="190" width="25" height="25"/>
+  </g>
+</svg>

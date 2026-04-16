@@ -1,0 +1,79 @@
+/* Footer Component Styles - TrueSight with Trust Colors */
+
+.footer {
+  background-color: #ffffff;
+  color: #6b7280;
+  padding: 32px 20px;
+  margin-top: 64px;
+  border-top: 2px solid #10b981;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 0 32px;
+}
+
+.footer-content {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-text {
+  margin: 0 0 8px 0;
+  font-size: 0.9rem;
+  color: #10b981;
+  font-weight: 500;
+}
+
+.footer-disclaimer {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
+.footer-disclaimer strong {
+  color: #111827;
+}
+
+.footer-credits {
+  text-align: right;
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-credits p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #d1d5db;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer {
+    padding: 28px 16px;
+    margin-top: 48px;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 0 16px;
+  }
+
+  .footer-credits {
+    text-align: center;
+  }
+
+  .footer-text,
+  .footer-disclaimer,
+  .footer-credits p {
+    font-size: 0.8rem;
+  }
+}

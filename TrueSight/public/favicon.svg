@@ -1,0 +1,31 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background - light neutral -->
+  <rect width="512" height="512" fill="#f8f9fa"/>
+  
+  <!-- Pixel squares pattern (top left) - Cyan #4DB8E8 -->
+  <g fill="#4DB8E8">
+    <!-- Top row -->
+    <rect x="80" y="60" width="28" height="28"/>
+    <rect x="124" y="60" width="28" height="28"/>
+    
+    <!-- Second row -->
+    <rect x="58" y="104" width="28" height="28"/>
+    <rect x="102" y="104" width="28" height="28"/>
+    <rect x="146" y="104" width="28" height="28"/>
+    
+    <!-- Third row -->
+    <rect x="124" y="148" width="28" height="28"/>
+    <rect x="168" y="148" width="28" height="28"/>
+  </g>
+  
+  <!-- Magnifying glass circle (main search lens) - Cyan -->
+  <circle cx="300" cy="300" r="110" fill="none" stroke="#4DB8E8" stroke-width="32"/>
+  
+  <!-- Checkmark inside circle - Cyan -->
+  <g transform="translate(300, 300)">
+    <path d="M -30 -5 L 0 25 L 45 -30" fill="none" stroke="#4DB8E8" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  
+  <!-- Magnifying glass handle - Cyan -->
+  <line x1="365" y1="365" x2="445" y2="445" stroke="#4DB8E8" stroke-width="32" stroke-linecap="round"/>
+</svg>
