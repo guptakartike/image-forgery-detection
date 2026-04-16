@@ -5,6 +5,28 @@ Built from scratch using TensorFlow/Keras. Beginner-friendly and designed for Dj
 
 ---
 
+## ⬇️ Downloads
+
+> **Large files are hosted on Google Drive** (too big for GitHub).
+
+| File | Size | Link |
+|------|------|------|
+| `model.keras` (trained weights) | ~101 MB | [📥 Download](https://drive.google.com/file/d/1CkuTFXcrLjXrVraoWDXFuioTQEIk-DE6/view?usp=sharing) |
+| `dataset/` (CASIA v2) | ~3.35 GB | *(link coming soon)* |
+
+After downloading, place the files in the project root:
+```
+Image_forgery_detection/
+├── model.keras        ← place here
+├── dataset/           ← place here
+│   └── dataset/
+│       ├── authentic/
+│       └── forged/
+└── ...
+```
+
+---
+
 ## 📁 Project Structure
 
 ```
@@ -71,19 +93,27 @@ Dense(1, Sigmoid)  →  0 = Authentic | 1 = Forged
 ## 🚀 How to Run
 
 ```bash
-# Step 1: Activate virtual environment
+# Step 1: Clone the repository
+git clone https://github.com/guptakartike/image-forgery-detection.git
+cd image-forgery-detection
+
+# Step 2: Activate virtual environment
+python -m venv venv
 venv\Scripts\activate
 
-# Step 2: Install dependencies
-pip install tensorflow scikit-learn matplotlib seaborn pillow
+# Step 3: Install dependencies
+pip install -r requirements.txt
 
-# Step 3: Train the model
-python train.py
+# Step 4: Download model.keras and dataset/ from the links above
+# Place them in the project root directory
 
-# Step 4: Predict on an image
+# Step 5: Predict on an image (uses pre-trained model.keras)
 python predict.py path/to/image.jpg
 
-# Step 5: Evaluate a saved model
+# Step 6: (Optional) Re-train from scratch
+python train.py
+
+# Step 7: (Optional) Evaluate the saved model
 python evaluate.py
 ```
 
@@ -127,3 +157,12 @@ result = predict_image(request.FILES['image'].temporary_file_path())
 - **CASIA v2**: 7,492 authentic + 5,125 forged images
 - Labels assigned alphabetically: `authentic=0`, `forged=1`
 - Pixel values normalized: `[0, 255] → [0.0, 1.0]`
+- Download link: *(coming soon — will be added to the Downloads section above)*
+
+---
+
+## 📝 Notes
+
+- `model.keras` and `dataset/` are **not included in this repo** due to GitHub's file size limits.
+- Download them from the [Downloads](#️-downloads) section above and place them in the project root before running.
+- The trained model achieves detection with class weights `1.0 (Authentic) / 3.0 (Forged)` to handle dataset imbalance.
