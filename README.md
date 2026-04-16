@@ -12,7 +12,6 @@ Built from scratch using TensorFlow/Keras. Beginner-friendly and designed for Dj
 | File | Size | Link |
 |------|------|------|
 | `model.keras` (trained weights) | ~101 MB | [📥 Download](https://drive.google.com/file/d/1CkuTFXcrLjXrVraoWDXFuioTQEIk-DE6/view?usp=sharing) |
-| `dataset/` (CASIA v2) | ~3.35 GB | *(link coming soon)* |
 
 After downloading, place the files in the project root:
 ```
@@ -157,12 +156,10 @@ result = predict_image(request.FILES['image'].temporary_file_path())
 - **CASIA v2**: 7,492 authentic + 5,125 forged images
 - Labels assigned alphabetically: `authentic=0`, `forged=1`
 - Pixel values normalized: `[0, 255] → [0.0, 1.0]`
-- Download link: *(coming soon — will be added to the Downloads section above)*
 
 ---
 
 ## 📝 Notes
 
-- `model.keras` and `dataset/` are **not included in this repo** due to GitHub's file size limits.
-- Download them from the [Downloads](#️-downloads) section above and place them in the project root before running.
-- The trained model achieves detection with class weights `1.0 (Authentic) / 3.0 (Forged)` to handle dataset imbalance.
+- `model.keras` is **not included in this repo** due to GitHub's 100 MB file size limit — download it from the [Downloads](#️-downloads) section above.
+- The trained model uses class weights `1.0 (Authentic) / 3.0 (Forged)` to handle dataset imbalance.
