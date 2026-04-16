@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+venv/
+env/
+.env/
+.venv/
+
+# IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Dataset (too large for git — user downloads separately)
+dataset/
+
+# Trained model weights (large binary — use Git LFS or exclude)
+*.keras
+*.h5
+*.pkl
+*.pth
+*.pt
+saved_model/
+
+# Output graphs (generated at runtime)
+graphs/
+
+# Random test images (not part of source code)
+image2.jpg
+image3.jpg
+image4.jpeg
+image5.jpeg
+image6.jpg
+wallpaper.jpg
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
